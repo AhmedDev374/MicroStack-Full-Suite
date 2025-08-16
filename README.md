@@ -113,64 +113,107 @@ docker compose up --build
    - **Password:** from ```.env```
    - **Database:** from ```.env```
 
+> For first‑time local development, seed data or migrations may run automatically on backend startup (check backend README or scripts).
+
 ---
 
 ## Usage
 
-- **Frontend:** Navigate to the UI and follow the on-screen instructions (e.g., create, read, update, delete functionality).
-- **Backend API:** Use tools like curl or Postman:
+- **Frontend:** open the browser at the Nginx URL (or direct port if you run without Nginx) and interact with the UI.
+- **Backend API:** test with curl or Postman, either via Nginx or direct to the service.
 ```plaintext
-curl http://localhost:3001/api/resource
+# Hitting the API through Nginx (if /api is proxied there)
+curl http://localhost/api/health
+
+# Hitting the API directly on the backend port
+curl http://localhost:3001/api/health
 ```
 ---
 
 ## Environment Variables
 
-Below are common  ```.env```  variables (modify as necessary):
-```plaintext
-DB_HOST=postgres
-DB_PORT=5432
-DB_USER=your_db_user
-DB_PASSWORD=your_db_password
-DB_NAME=your_db_name
+Create a```.env```  in the project root. Common entries (match to your ```docker-compose.yml```):
 
+```plaintext
+# PostgreSQL
+POSTGRES_DB=app
+POSTGRES_USER=app
+POSTGRES_PASSWORD=secret
+POSTGRES_PORT=5432
+
+# Backend
 BACKEND_PORT=3001
+DATABASE_HOST=postgres
+DATABASE_PORT=5432
+DATABASE_USER=${POSTGRES_USER}
+DATABASE_PASSWORD=${POSTGRES_PASSWORD}
+DATABASE_NAME=${POSTGRES_DB}
+REDIS_HOST=redis
+REDIS_PORT=6379
+
+# Frontend
 FRONTEND_PORT=3000
+VITE_API_URL=http://localhost/api  # if using Nginx proxy
+# or VITE_API_URL=http://localhost:3001/api  # direct backend
+
+# Nginx
+NGINX_HTTP_PORT=80
+
+# Adminer
+ADMINER_PORT=8080
 ```
+> **Note:** Actual names may differ. Check the provided .env and docker-compose.yml in this repo to keep values consistent.
+
 ---
 
 ## Project Structure
 ```plaintext
-three-tier-app/
-├── frontend/          # UI code (HTML/CSS/JS or React/Vue)
-├── backend/           # API server code (Express, etc.)
-├── docker-compose.yml
-├── .env
+docker-microservices-starter/
+├── backend/           # Node.js/Express API (Dockerized)
+├── frontend/          # React (or HTML/JS) UI (Dockerized)
+├── nginx/             # Reverse proxy config (e.g., default.conf)
+├── docker-compose.yml # Orchestrates all services
+├── .env               # Centralized environment vars
 └── README.md
 ```
 ---
 
-## Usage
+## Troubleshooting
 
-- **Frontend:** Navigate to the UI and follow the on-screen instructions (e.g., create, read, update, delete functionality).
-- **Backend API:** Use tools like curl or Postman:
+- **Port already in use** – stop conflicting local services or change published ports in ```docker-compose.yml```.
+
+- **Services can’t talk to each other** – use service names (e.g., ```postgres```, ```redis```, ```backend```) as hosts inside containers, not ```localhost```.
+
+- **Adminer can’t connect** – ensure ```Server``` is ```postgres``` (the service name), and credentials match ```.env```.
+
+- **Hot reload** – if using bind mounts for dev, ensure the ```Dockerfile``` and compose dev profile copy or mount source correctly; restart containers after changing ```node_modules```.
+
+---
+
+## Testing (if applicable)
+
+If tests exist in ```frontend```/```backend```, run them locally (outside Docker) or via a test profile:
+
 ```plaintext
-# For backend:
+# Backend
 cd backend
+npm install
 npm test
 
-# For frontend:
-cd frontend
+# Frontend
+cd ../frontend
+npm install
 npm test
 ```
+
+You can also add a ```docker-compose.test.yml``` to spin up ephemeral test services.
+
 
 ---
 
 ## Contact
 
 For questions or feedback, reach out to Ahmed at
-
-
 
 1. **LinkDin**: https://eg.linkedin.com/in/ahmed-atef-elnadi-8165a51b9
 
