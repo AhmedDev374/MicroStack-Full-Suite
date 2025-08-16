@@ -1,4 +1,20 @@
-![Three-Tier Architecture](img.jpg)
+1. **First:** Login to DB
+![admin_login.PNG](images/admin_login.PNG)
+
+1. **Second:** Go to DB and Create A Table (users)
+![db.PNG](images/db.PNG)
+
+3. **Third:** Add Field to the User Table
+![db_users.PNG](images/db_users.PNG)
+
+3. **Forth:** Add Data to the User
+![db_users_data.PNG](images/db_users_data.PNG)
+
+5. **last:** Data will show on frontEnd & BackEnd
+![back_end.PNG](images/back_end.PNG)
+![fontend.PNG](images/fontend.PNG)
+
+---
 
 # Docker Microservices Starter
 
