@@ -32,9 +32,9 @@ This repository demonstrates a small, production‑like microservices environmen
 5. **Reverse Proxy** – Nginx routing traffic to UI and API
 6. **DB Admin** – Adminer for quick DB inspection
 
-   All services are isolated and connected on a Docker network via Docker Compose for easy local dev and reproducible demos.
+All services are isolated and connected on a Docker network via Docker Compose for easy local dev and reproducible demos.
 
-   Repository: ```https://github.com/AhmedDev374/docker-microservices-starter```
+Repository: ```https://github.com/AhmedDev374/docker-microservices-starter```
    
 ---
 
@@ -72,10 +72,10 @@ Typical endpoints (adjust if you change ports):
 
 Before running the project, ensure you have the following installed on your system:
 
-1. **Docker** – (version X.X or later)
-2. **Docker Compose** – (version X.X or later)
+1. **Docker** – 24.x or later
+2. **Docker Compose** – v2.x (bundled with recent Docker Desktop)
 
-You can verify your setup with:
+Verify:
 
 ```plaintext
 docker --version
@@ -88,24 +88,30 @@ docker compose version
 
 1. **Clone the repository**:
 ```plaintext
-git clone https://github.com/AhmedDev374/three-tier-app.git
-cd three-tier-app
+git clone https://github.com/AhmedDev374/docker-microservices-starter.git
+cd docker-microservices-starter
 ```
 
 2. **Copy the environment template (if applicable):**:
 ```plaintext
-cp .env.example .env
+cp .env.example .env  # or create .env if none exists
 ```
 Then open .env and set your environment variables (DB credentials, ports, etc.).
 
-3. **Start all services using Docker Compose:**:
+3. **Build & start all services:**:
 ```plaintext
 docker compose up --build
 ```
 
 3. **Access the application:**:
-- Frontend: http://localhost:3000 (modify based on your setup)
-- Backend API: http://localhost:3001/api (adjust accordingly)
+- Through Nginx (recommended): http://localhost
+
+- Adminer (DB UI): http://localhost:8080
+   - **System:** PostgreSQL
+   - **Server/Host:** ```postgres```
+   - **User:** from ```.env```
+   - **Password:** from ```.env```
+   - **Database:** from ```.env```
 
 ---
 
