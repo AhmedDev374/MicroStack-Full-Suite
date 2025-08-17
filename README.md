@@ -32,7 +32,7 @@
 - [Testing](#testing) *(if applicable)*  
 - [Contact](#contact)  
 - [License](#license)
-- 
+
 ---
 
 ## Overview
